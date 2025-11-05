@@ -19,6 +19,7 @@ This repository builds a binary classifier to predict whether a loan application
 - An optional AI explanation flow using Google Gemini that summarizes the decision in plain language.
 
 Dataset: https://www.kaggle.com/datasets/vikasukani/loan-eligible-dataset
+Demo: https://web.facebook.com/share/v/1C3kh6SwFg/
 
 ## Repository Structure
 
