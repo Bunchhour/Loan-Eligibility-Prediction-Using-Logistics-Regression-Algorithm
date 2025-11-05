@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prediction Result</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --card: #121833;
+            --muted: #98a2b3;
+            --text: #e6e9f0;
+            --primary: #6ea8fe;
+            --border: #1f2a4d;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+            background: radial-gradient(1200px 800px at 20% -10%, #1b2550 0%, transparent 60%),
+                radial-gradient(900px 700px at 110% 10%, #16203f 0%, transparent 60%), var(--bg);
+            color: var(--text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(9, 13, 31, .6);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .nav .brand a {
+            color: var(--text);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 36px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, #121835, #0f1430);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .35);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        .approved {
+            background: rgba(34, 197, 94, .15);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, .35);
+        }
+
+        .denied {
+            background: rgba(239, 68, 68, .15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, .35);
+        }
+
+        .pre {
+            white-space: pre-wrap;
+            background: #0c1230;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            appearance: none;
+            border: 1px solid var(--border);
+            background: #0f1738;
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: #0c0f1f;
+            border: none;
+            font-weight: 700;
+        }
+    </style>
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+    <header>
+        <div class="nav">
+            <div class="brand"><a href="/">Loan Predictor</a></div>
+            <div class="links">
+                <a href="/">Predict</a>
+                <a href="/history">History</a>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <section class="card">
+            <h1>Loan Prediction Result</h1>
+            <p class="sub" style="color: var(--muted);">Below is an AI-generated explanation for your result.</p>
+
+            <div class="badge {% if prediction == 'Approved' %}approved{% else %}denied{% endif %}">
+                {% if prediction == 'Approved' %}✅{% else %}❌{% endif %}
+                {{ prediction }}
+            </div>
+
+            <h3 style="margin-top: 18px;">Explanation</h3>
+            <div class="pre">{{ ai_summary }}</div>
+
+            <div class="actions">
+                <a class="btn primary" href="/">Make another prediction</a>
+                <a class="btn" href="/history">View history</a>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

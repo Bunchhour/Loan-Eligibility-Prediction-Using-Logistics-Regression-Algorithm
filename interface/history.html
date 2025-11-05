@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Prediction History</title>
+    <style>
+        :root {
+            --bg: #0b1020;
+            --card: #121833;
+            --muted: #98a2b3;
+            --text: #e6e9f0;
+            --primary: #6ea8fe;
+            --border: #1f2a4d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+            background: radial-gradient(1200px 800px at 20% -10%, #1b2550 0%, transparent 60%), radial-gradient(900px 700px at 110% 10%, #16203f 0%, transparent 60%), var(--bg);
+            color: var(--text);
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(9, 13, 31, .6);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+            margin-left: 18px;
+        }
+
+        .nav .brand a {
+            color: var(--text);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 36px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, #121835, #0f1430);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .35);
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 220px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #0c1230;
+            color: var(--text);
+        }
+
+        button {
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary);
+            color: #0c0f1f;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        th {
+            text-align: left;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+        }
+
+        .pill.ok {
+            background: rgba(34, 197, 94, .15);
+            color: #22c55e;
+            border-color: rgba(34, 197, 94, .35);
+        }
+
+        .pill.no {
+            background: rgba(239, 68, 68, .15);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, .35);
+        }
+
+        .pre {
+            white-space: pre-wrap;
+            background: #0c1230;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .actions {
+            margin-top: 16px;
+        }
+
+        .link {
+            color: var(--primary);
+            text-decoration: none;
+        }
+    </style>
+    <link rel="icon" href="data:,">
+</head>
+
+<body>
+    <header>
+        <div class="nav">
+            <div class="brand"><a href="/">Loan Predictor</a></div>
+            <div class="links">
+                <a href="/">Predict</a>
+                <a href="/history">History</a>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <section class="card">
+            <h1>Search Prediction History</h1>
+            <p class="muted">Look up your previous predictions and AI explanations.</p>
+            <form action="/history" method="POST">
+                <input type="text" id="user_name" name="user_name" placeholder="Enter your name" required>
+                <button type="submit">Search</button>
+            </form>
+
+            {% if results %}
+            <h2>History for {{ user_name }}</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Prediction</th>
+                    <th>Summary</th>
+                    <th>Date</th>
+                </tr>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row['id'] }}</td>
+                    <td>
+                        <span class="pill {% if row['prediction'] == 'Approved' %}ok{% else %}no{% endif %}">{{
+                            row['prediction'] }}</span>
+                    </td>
+                    <td>
+                        <div class="pre">{{ row['ai_summary'] }}</div>
+                    </td>
+                    <td class="muted">{{ row['created_at'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p class="muted">No results to show. Submit your name above to search.</p>
+            {% endif %}
+
+            <div class="actions"><a class="link" href="/">← Back to prediction</a></div>
+        </section>
+    </main>
+</body>
+
+</html>
