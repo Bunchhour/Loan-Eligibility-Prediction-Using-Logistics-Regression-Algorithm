@@ -31,7 +31,6 @@ odds_json = json.dumps(odds_dict)
 """
 - Converts python dict to JSON text
 - Useful for storing in a database or sending to frontend.
-
 """
 
 # Example interpretation string (for loggin or basico output)
